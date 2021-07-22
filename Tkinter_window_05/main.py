@@ -20,7 +20,7 @@ class App:
 
         for number, source in enumerate(video_sources):
             text, stream = source
-            vid = SampleApp(self.window, text, stream, 300, 200, 1)
+            vid = tkCamera(self.window, text, stream, 300, 200, 1)
             x = number % columns
             y = number // columns
             # vid.grid(row=y, column=x)

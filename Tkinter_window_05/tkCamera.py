@@ -89,40 +89,28 @@ class tkCamera(tkinter.Frame):
 
 
 class StartPage(tk.Frame):
-    def __init__(self, master, text="", video_source=0, width=None, height=None, repeat=0):
+    def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.text = text
-        self.video_source = video_source
-        self.width = width
-        self.height = height
-        self.repeat = repeat
 
-        tk.Button(self, text="Go to page one",
-                  command=lambda: master.switch_frame(self, self.text, self.video_source, self.width, self.height, self.repeat)).pack()
+        tk.Button(self, text="Go to page one", command=lambda: master.switch_frame(PageOne)).pack()
+
+
+class PageOne(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        tk.Frame.configure(self, bg='blue')
+        tk.Label(self, text="Page one", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Go back to start page", command=lambda: master.switch_frame(StartPage)).pack()
 
 
 class SampleApp(tk.Frame):
-    def __init__(self, window, text="", video_source=0, width=None, height=None, repeat=0):
+    def __init__(self):
+        tk.Tk.__init__(self)
         self._frame = None
-        self.text = text
-        self.window = window
-        self.video_source = video_source
-        self.width = width
-        self.height = height
-        self.repeat = repeat
-        if repeat == 1 :
-            self.switch_frame(StartPage)
-        else:
-            self.switch_frame(tkCamera)
+        self.switch_frame(StartPage)
 
-    def switch_frame(self, frame_class, text="", video_source=0, width=None, height=None, repeat=0):
-        self._frame = None
-        self.text = text
-        self.video_source = video_source
-        self.width = width
-        self.height = height
-        self.repeat = repeat
-        new_frame = frame_class(self.window,self.text, self.video_source, self.width, self.height, self.repeat)
+    def switch(self, frame_class):
+        new_frame = frame_class(self)
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
