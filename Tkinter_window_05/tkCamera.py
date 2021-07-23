@@ -1,19 +1,17 @@
-import tkinter as tk
+import tkinter
 import cv2
 import PIL.Image, PIL.ImageTk
 import time
 
 from partd.utils import frame
 
-from Tkinter_window_05.MyVideoCapture import *
+from Tkinter_window_03.MyVideoCapture import *
 
 
 class tkCamera(tkinter.Frame):
 
     def __init__(self, window, text="", video_source=0, width=None, height=None, repeat=0):
         super().__init__(window)
-
-        self._frame = None
 
         self.window = window
         self.repeat = repeat
@@ -40,9 +38,6 @@ class tkCamera(tkinter.Frame):
 
         self.btn_snapshot = tkinter.Button(self, text="Snapshot", command=self.snapshot)
         self.btn_snapshot.pack(anchor='center', side='left')
-
-        self.btn_switch = tkinter.Button(self, text="Switch", command=lambda: self.switch(PageOne))
-        self.btn_switch.pack(anchor='center', side='left')
 
         self.delay = int(1000 / self.vid.fps)
 
@@ -86,32 +81,3 @@ class tkCamera(tkinter.Frame):
 
         if self.running:
             self.window.after(self.delay, self.update_frame)
-
-
-class StartPage(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-
-        tk.Button(self, text="Go to page one", command=lambda: master.switch_frame(PageOne)).pack()
-
-
-class PageOne(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        tk.Frame.configure(self, bg='blue')
-        tk.Label(self, text="Page one", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Go back to start page", command=lambda: master.switch_frame(StartPage)).pack()
-
-
-class SampleApp(tk.Frame):
-    def __init__(self):
-        tk.Tk.__init__(self)
-        self._frame = None
-        self.switch_frame(StartPage)
-
-    def switch(self, frame_class):
-        new_frame = frame_class(self)
-        if self._frame is not None:
-            self._frame.destroy()
-        self._frame = new_frame
-        self._frame.pack()
